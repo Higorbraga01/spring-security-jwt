@@ -2,16 +2,17 @@ package br.com.alura.forum.dto;
 
 import br.com.alura.forum.modelo.Curso;
 import br.com.alura.forum.modelo.Topico;
-import br.com.alura.forum.repository.CursoRepository;
 import br.com.alura.forum.service.CursoService;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 public class TopicoForm {
 
+    @NotNull @NotEmpty
     private String titulo;
     private String mensagem;
+    @NotNull @NotEmpty
     private String nomeCurso;
 
     public String getTitulo() {

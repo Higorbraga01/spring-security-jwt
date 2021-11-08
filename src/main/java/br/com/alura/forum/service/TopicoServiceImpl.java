@@ -28,7 +28,7 @@ public class TopicoServiceImpl implements TopicoService{
     }
 
     @Override
-    public void salvar(Topico topico) {
-        repository.save(topico);
+    public Topico salvar(Topico topico) {
+        return repository.save(topico);
     }
 }

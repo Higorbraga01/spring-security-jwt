@@ -8,5 +8,5 @@ public interface TopicoService {
 
     List<Topico> findAll();
     List<Topico> findAllByNomeCurso(String nomeCurso);
-    void salvar(Topico topico);
+    Topico salvar(Topico topico);
 }
