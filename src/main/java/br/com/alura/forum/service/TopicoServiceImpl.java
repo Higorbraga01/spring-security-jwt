@@ -1,5 +1,6 @@
 package br.com.alura.forum.service;
 
+import br.com.alura.forum.dto.TopicoForm;
 import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.repository.TopicoRepository;
 import org.springframework.stereotype.Service;
@@ -24,5 +25,10 @@ public class TopicoServiceImpl implements TopicoService{
     @Override
     public List<Topico> findAllByNomeCurso(String nomeCurso) {
         return repository.findByCurso_Nome(nomeCurso);
+    }
+
+    @Override
+    public void salvar(Topico topico) {
+        repository.save(topico);
     }
 }
