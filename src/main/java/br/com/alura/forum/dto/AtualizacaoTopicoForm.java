@@ -5,6 +5,7 @@ import br.com.alura.forum.service.TopicoService;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 public class AtualizacaoTopicoForm {
 
@@ -31,10 +32,12 @@ public class AtualizacaoTopicoForm {
         this.mensagem = mensagem;
     }
 
-    public Topico atualizar(Long id, TopicoService service) {
-        Topico topico = service.findById(id);
-        topico.setTitulo(this.titulo);
-        topico.setMensagem(this.mensagem);
+    public Optional<Topico> atualizar(Long id, TopicoService service) {
+        Optional<Topico> topico = service.findById(id);
+        if(topico.isPresent()){
+            topico.get().setTitulo(this.titulo);
+            topico.get().setMensagem(this.mensagem);
+        }
         return topico;
     }
 }

@@ -1,11 +1,11 @@
 package br.com.alura.forum.service;
 
-import br.com.alura.forum.dto.TopicoForm;
 import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.repository.TopicoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TopicoServiceImpl implements TopicoService{
@@ -33,8 +33,8 @@ public class TopicoServiceImpl implements TopicoService{
     }
 
     @Override
-    public Topico findById(Long id) {
-        return repository.findById(id).get();
+    public Optional<Topico> findById(Long id) {
+        return repository.findById(id);
     }
 
     @Override

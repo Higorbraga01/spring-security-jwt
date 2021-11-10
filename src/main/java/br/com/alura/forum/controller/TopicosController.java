@@ -16,6 +16,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -50,21 +51,31 @@ public class TopicosController {
 
     @GetMapping("{id}")
     public ResponseEntity<DetalhesTopicoDto> detalhar(@PathVariable Long id) {
-        Topico topico = service.findById(id);
-        return ResponseEntity.ok(new DetalhesTopicoDto(topico));
+        Optional<Topico> found = service.findById(id);
+        if(found.isPresent()){
+            return ResponseEntity.ok(new DetalhesTopicoDto(found.get()));
+        }else
+            return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<TopicoDto> atualizar(@Valid @RequestBody AtualizacaoTopicoForm atualizacaoTopicoForm, UriComponentsBuilder uriBuilder, @PathVariable Long id) {
-        Topico topico = atualizacaoTopicoForm.atualizar(id, service);
-        return ResponseEntity.ok().body(new TopicoDto(topico));
+        Optional<Topico> topico = atualizacaoTopicoForm.atualizar(id, service);
+        if(topico.isPresent()){
+            return ResponseEntity.ok().body(new TopicoDto(topico.get()));
+        }else
+            return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<TopicoDto> remover(@PathVariable Long id) {
-        service.deletar(id);
-        return ResponseEntity.noContent().build();
+        Optional<Topico> found = service.findById(id);
+        if(found.isPresent()){
+            service.deletar(id);
+            return ResponseEntity.noContent().build();
+        }else
+            return ResponseEntity.notFound().build();
     }
 }
