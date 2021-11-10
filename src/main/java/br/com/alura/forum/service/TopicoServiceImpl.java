@@ -31,4 +31,9 @@ public class TopicoServiceImpl implements TopicoService{
     public Topico salvar(Topico topico) {
         return repository.save(topico);
     }
+
+    @Override
+    public Topico findById(Long id) {
+        return repository.findById(id).get();
+    }
 }

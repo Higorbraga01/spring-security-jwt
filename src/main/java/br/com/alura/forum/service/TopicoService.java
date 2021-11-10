@@ -9,4 +9,5 @@ public interface TopicoService {
     List<Topico> findAll();
     List<Topico> findAllByNomeCurso(String nomeCurso);
     Topico salvar(Topico topico);
+    Topico findById(Long id);
 }
