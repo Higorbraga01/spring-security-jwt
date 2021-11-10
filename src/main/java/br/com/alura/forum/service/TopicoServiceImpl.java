@@ -38,7 +38,12 @@ public class TopicoServiceImpl implements TopicoService{
     }
 
     @Override
-    public void deletar(Long id) {
-        repository.deleteById(id);
+    public Optional<Topico> deletar(Long id) {
+        Optional<Topico> found = repository.findById(id);
+        if(found.isPresent()) {
+            repository.deleteById(id);
+        }else
+            return found;
+        return found;
     }
 }

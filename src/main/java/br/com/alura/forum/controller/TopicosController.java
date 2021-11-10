@@ -71,9 +71,8 @@ public class TopicosController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<TopicoDto> remover(@PathVariable Long id) {
-        Optional<Topico> found = service.findById(id);
+        Optional<Topico> found = service.deletar(id);
         if(found.isPresent()){
-            service.deletar(id);
             return ResponseEntity.noContent().build();
         }else
             return ResponseEntity.notFound().build();
