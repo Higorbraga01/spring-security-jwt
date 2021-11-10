@@ -8,10 +8,11 @@ import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.service.CursoService;
 import br.com.alura.forum.service.TopicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -33,8 +33,8 @@ public class TopicosController {
     private CursoService cursoService;
 
     @GetMapping()
-    public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso, @RequestParam int pagina,  @RequestParam int qtd, @RequestParam String ordenacao) {
-        Pageable pageable = PageRequest.of(pagina, qtd, Sort.Direction.DESC, ordenacao);
+    @Cacheable(value = "listaDeTopicos")
+    public Page<TopicoDto> lista(@RequestParam(required = false) String nomeCurso, @PageableDefault(sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         if(nomeCurso == null){
             Page<Topico> topicos = service.findAll(pageable);
             return TopicoDto.converter(topicos);
