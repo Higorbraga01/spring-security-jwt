@@ -10,4 +10,5 @@ public interface TopicoService {
     List<Topico> findAllByNomeCurso(String nomeCurso);
     Topico salvar(Topico topico);
     Topico findById(Long id);
+    void deletar(Long id);
 }

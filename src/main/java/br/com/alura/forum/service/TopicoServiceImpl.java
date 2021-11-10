@@ -36,4 +36,9 @@ public class TopicoServiceImpl implements TopicoService{
     public Topico findById(Long id) {
         return repository.findById(id).get();
     }
+
+    @Override
+    public void deletar(Long id) {
+        repository.deleteById(id);
+    }
 }

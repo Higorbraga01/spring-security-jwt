@@ -40,6 +40,7 @@ public class TopicosController {
     }
 
     @PostMapping()
+    @Transactional
     public ResponseEntity<TopicoDto> cadastrar(@Valid @RequestBody TopicoForm topicoForm, UriComponentsBuilder uriBuilder) {
         Topico topico = topicoForm.converter(cursoService);
         URI uri = uriBuilder.path("/topicos/{id}").buildAndExpand(topico.getId()).toUri();
@@ -58,5 +59,12 @@ public class TopicosController {
     public ResponseEntity<TopicoDto> atualizar(@Valid @RequestBody AtualizacaoTopicoForm atualizacaoTopicoForm, UriComponentsBuilder uriBuilder, @PathVariable Long id) {
         Topico topico = atualizacaoTopicoForm.atualizar(id, service);
         return ResponseEntity.ok().body(new TopicoDto(topico));
+    }
+
+    @DeleteMapping("/{id}")
+    @Transactional
+    public ResponseEntity<TopicoDto> remover(@PathVariable Long id) {
+        service.deletar(id);
+        return ResponseEntity.noContent().build();
     }
 }
