@@ -2,6 +2,8 @@ package br.com.alura.forum.service;
 
 import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.repository.TopicoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +25,13 @@ public class TopicoServiceImpl implements TopicoService{
     }
 
     @Override
-    public List<Topico> findAllByNomeCurso(String nomeCurso) {
-        return repository.findByCurso_Nome(nomeCurso);
+    public Page<Topico> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
+    }
+
+    @Override
+    public Page<Topico> findAllByNomeCurso(String nomeCurso, Pageable pageable) {
+        return repository.findByCurso_Nome(nomeCurso, pageable);
     }
 
     @Override

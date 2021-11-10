@@ -8,6 +8,9 @@ import br.com.alura.forum.modelo.Topico;
 import br.com.alura.forum.service.CursoService;
 import br.com.alura.forum.service.TopicoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -29,12 +32,13 @@ public class TopicosController {
     private CursoService cursoService;
 
     @GetMapping()
-    public List<TopicoDto> lista(String nomeCurso) {
+    public Page<TopicoDto> lista(@RequestParam(required = false)  String nomeCurso, @RequestParam int pagina,  @RequestParam int qtd) {
+        Pageable pageable = PageRequest.of(pagina, qtd);
         if(nomeCurso == null){
-            List<Topico> topicos = service.findAll();
+            Page<Topico> topicos = service.findAll(pageable);
             return TopicoDto.converter(topicos);
         } else {
-            List<Topico> cursosByNome = service.findAllByNomeCurso(nomeCurso);
+            Page<Topico> cursosByNome = service.findAllByNomeCurso(nomeCurso, pageable);
             return TopicoDto.converter(cursosByNome);
         }
 
