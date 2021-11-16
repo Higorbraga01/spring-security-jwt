@@ -1,6 +1,7 @@
 package br.com.alura.forum.config;
 
 import br.com.alura.forum.config.filter.AutenticacaoViaTokenFilter;
+import br.com.alura.forum.repository.UsuarioRepository;
 import br.com.alura.forum.service.AutenticacaoService;
 import br.com.alura.forum.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {
@@ -49,7 +53,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .anyRequest().authenticated()
             .and().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService), UsernamePasswordAuthenticationFilter.class);
+            .and().addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class);
     }
 
     //Configurações de recursos estaticos(js,css,imagens,etc.)
